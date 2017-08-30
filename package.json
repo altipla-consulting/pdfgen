@@ -1,0 +1,16 @@
+{
+  "name": "pdfgen",
+  "version": "0.0.1",
+  "description": "App para obtener pdfs desde html.",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/altipla-consulting/pdfgen.git"
+  },
+  "author": "Altipla Consulting",
+  "homepage": "https://github.com/altipla-consulting/pdfgen",
+  "dependencies": {
+    "minimist": "^1.2.0",
+    "puppeteer": "^0.10.0"
+  }
+}
