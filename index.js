@@ -12,19 +12,18 @@ let options = {
 let argv = parseArgs(process.argv.slice(2), options);
 
 
-let browser, page;
-return puppeteer.launch().then(br => {
-  browser = br;
-  return browser.newPage();
-}).then(pg => {
-  page = pg;
-  return page.goto(argv.url);
-}).then(() => {
-  return page.pdf({
+async function main() {
+  let browser = await puppeteer.launch();
+  let page = await browser.newPage();
+  await page.goto(argv.url)
+
+  let data = await page.pdf({
     printBackground: true,
     format: 'A4',
   });
-}).then(data => {
+
   console.log(data);
   browser.close();
-});
+}
+
+main();
