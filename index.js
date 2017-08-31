@@ -1,11 +1,12 @@
 'use strict'
 
 const parseArgs = require('minimist'),
+      Storage = require('@google-cloud/storage'),
       puppeteer = require('puppeteer');
 
 
 let options = {
-  string: ['url', 'file'],
+  string: ['url', 'filename', 'bucket'],
   boolean: 'local',
   unknown: () => false,
 };
@@ -22,8 +23,32 @@ async function main() {
     format: 'A4',
   });
 
-  console.log(data);
   browser.close();
+
+  let gsoptions = {};
+  if (!argv.local)  {
+    gsoptions.keyFilename = '/etc/service-account.json';
+  }
+
+  let storage = Storage(gsoptions);
+
+  let bucket = storage.bucket(argv.bucket);
+  let file = bucket.file(argv.filename);
+  let stream = file.createWriteStream({
+    metadata: {
+      contentType: 'application/pdf',
+    },
+  });
+
+  stream.on('error', (err) => {
+    throw err;
+  });
+
+  stream.on('finish', () => {
+    console.log('finished');
+  });
+
+  stream.end(data);
 }
 
 main();
