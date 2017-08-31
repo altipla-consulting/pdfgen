@@ -1,8 +1,8 @@
 'use strict'
 
-const parseArgs = require('minimist'),
-      Storage = require('@google-cloud/storage'),
-      puppeteer = require('puppeteer');
+const parseArgs = require('minimist');
+const Storage = require('@google-cloud/storage');
+const puppeteer = require('puppeteer');
 
 
 let options = {
@@ -13,18 +13,7 @@ let options = {
 let argv = parseArgs(process.argv.slice(2), options);
 
 
-async function main() {
-  let browser = await puppeteer.launch();
-  let page = await browser.newPage();
-  await page.goto(argv.url)
-
-  let data = await page.pdf({
-    printBackground: true,
-    format: 'A4',
-  });
-
-  browser.close();
-
+function uploadFile(data) {
   let gsoptions = {};
   if (!argv.local)  {
     gsoptions.keyFilename = '/etc/service-account.json';
@@ -40,15 +29,27 @@ async function main() {
     },
   });
 
-  stream.on('error', (err) => {
-    throw err;
-  });
+  stream.on('error', err => err);
 
-  stream.on('finish', () => {
-    console.log('finished');
-  });
+  stream.on('finish', () => Promise.resolve());
 
   stream.end(data);
+}
+
+
+async function main() {
+  let browser = await puppeteer.launch();
+  let page = await browser.newPage();
+  await page.goto(argv.url)
+
+  let data = await page.pdf({
+    printBackground: true,
+    format: 'A4',
+  });
+
+  browser.close();
+
+  await uploadFile(data);
 }
 
 main();
