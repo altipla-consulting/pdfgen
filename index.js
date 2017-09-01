@@ -13,7 +13,7 @@ let options = {
 let argv = parseArgs(process.argv.slice(2), options);
 
 
-function uploadFile(data) {
+async function uploadFile(data) {
   let gsoptions = {};
   if (!argv.local)  {
     gsoptions.keyFilename = '/etc/service-account.json';
@@ -29,11 +29,13 @@ function uploadFile(data) {
     },
   });
 
-  stream.on('error', err => err);
+  return new Promise((resolve, reject) => {
+    stream.on('error', err => reject(err));
 
-  stream.on('finish', () => Promise.resolve());
+    stream.on('finish', () => resolve());
 
-  stream.end(data);
+    stream.end(data);
+  });
 }
 
 
