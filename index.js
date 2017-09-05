@@ -5,20 +5,7 @@ const Storage = require('@google-cloud/storage');
 const puppeteer = require('puppeteer');
 
 
-let options = {
-  string: ['url', 'filename', 'bucket'],
-  boolean: 'local',
-  unknown: () => false,
-};
-let argv = parseArgs(process.argv.slice(2), options);
-
-if (!argv.url || !argv.bucket || !argv.filename) {
-  console.log('Usage: node index.js --url http://www.example.com --bucket test-bucket --filename test/test.pdf');
-  return;
-}
-
-
-async function uploadFile(data) {
+async function uploadFile(argv, data) {
   let gsoptions = {};
   if (!argv.local)  {
     gsoptions.keyFilename = '/etc/service-account.json';
@@ -45,6 +32,18 @@ async function uploadFile(data) {
 
 
 async function main() {
+  let options = {
+    string: ['url', 'filename', 'bucket'],
+    boolean: 'local',
+    unknown: () => false,
+  };
+  let argv = parseArgs(process.argv.slice(2), options);
+
+  if (!argv.url || !argv.bucket || !argv.filename) {
+    console.log('Usage: node index.js --url http://www.example.com --bucket test-bucket --filename test/test.pdf');
+    return;
+  }
+
   let browser = await puppeteer.launch();
   let page = await browser.newPage();
   await page.goto(argv.url)
@@ -56,7 +55,7 @@ async function main() {
 
   browser.close();
 
-  await uploadFile(data);
+  await uploadFile(argv, data);
 }
 
 main();
