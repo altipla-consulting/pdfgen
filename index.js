@@ -12,6 +12,11 @@ let options = {
 };
 let argv = parseArgs(process.argv.slice(2), options);
 
+if (!argv.url || !argv.bucket || !argv.filename) {
+  console.log('Usage: node index.js --url http://www.example.com --bucket test-bucket --filename test/test.pdf');
+  return;
+}
+
 
 async function uploadFile(data) {
   let gsoptions = {};
