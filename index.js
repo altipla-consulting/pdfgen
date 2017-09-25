@@ -44,7 +44,7 @@ async function main() {
     return;
   }
 
-  let browser = await puppeteer.launch();
+  let browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
   let page = await browser.newPage();
   await page.goto(argv.url)
 
