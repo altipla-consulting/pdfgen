@@ -25,4 +25,4 @@ RUN groupadd -r pptruser && useradd -r -g pptruser -G audio,video pptruser \
 # Run user as non privileged.
 USER pptruser
 
-RUN node index.js --url http://www.example.com --bucket viajeros-pdfgen --filename example.pdf
+RUN node index.js
