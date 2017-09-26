@@ -17,14 +17,12 @@ RUN apt-get update && apt-get install -y wget --no-install-recommends \
 
 RUN npm install
 
-# UID & GID inside the container
-ARG USR_ID=0
-ARG GRP_ID=0
-RUN groupadd --gid $GRP_ID -r local -o && \
-    useradd --system --uid=$USR_ID --gid=$GRP_ID --home-dir /home/local local -o && \
-    mkdir /home/local && \
-    chown local:local /home/local
+# Add pptr user.
+RUN groupadd -r pptruser && useradd -r -g pptruser -G audio,video pptruser \
+    && mkdir -p /home/pptruser/Downloads \
+    && chown -R pptruser:pptruser /home/pptruser
 
-USER local
+# Run user as non privileged.
+USER pptruser
 
-RUN node index.js
+RUN node index.js --url http://www.example.com --bucket viajeros-pdfgen --filename example.pdf
