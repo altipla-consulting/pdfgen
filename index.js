@@ -33,19 +33,25 @@ async function uploadFile(argv, data) {
 
 async function main() {
   let options = {
-    string: ['url', 'filename', 'bucket'],
+    string: ['url', 'filename', 'bucket', 'authorization'],
     boolean: 'local',
     unknown: () => false,
   };
   let argv = parseArgs(process.argv.slice(2), options);
 
   if (!argv.url || !argv.bucket || !argv.filename) {
-    console.log('Usage: node index.js --url http://www.example.com --bucket test-bucket --filename test/test.pdf');
+    console.log('Usage: node index.js --url http://www.example.com --bucket test-bucket --filename test/test.pdf [--authorization "Bearer token"]');
     return;
   }
 
   let browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
   let page = await browser.newPage();
+
+  if (argv.authorization) {
+    await page.setExtraHTTPHeaders({
+      'Authorization': `${argv.authorization}`,
+    });
+  }
   await page.goto(argv.url)
 
   let data = await page.pdf({
