@@ -14,12 +14,4 @@ WORKDIR /app
 
 RUN npm install
 
-RUN groupadd -r pptruser && \
-    useradd -r -g pptruser -G audio,video pptruser && \
-    mkdir -p /home/pptruser/Downloads && \
-    mkdir -p /home/pptruser/.config && \
-    chown -R pptruser:pptruser /home/pptruser && \
-    chown -R pptruser:pptruser /app/node_modules
-
-USER pptruser
 CMD ["node", "index.js"]
