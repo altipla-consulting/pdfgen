@@ -52,16 +52,17 @@ async function main() {
       'Authorization': `${argv.authorization}`,
     });
   }
-  await page.goto(argv.url)
+  await page.goto(argv.url, {waitUntil: 'networkidle'});
 
   let data = await page.pdf({
     printBackground: true,
     format: 'A4',
   });
 
-  browser.close();
+  await browser.close();
 
   await uploadFile(argv, data);
 }
+
 
 main();
