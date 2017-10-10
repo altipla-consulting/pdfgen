@@ -21,11 +21,10 @@ async function uploadFile(argv, data) {
     },
   });
 
+  console.log(`upload file to storage: gs://${argv.bucket}/${argv.filename}`);
   return new Promise((resolve, reject) => {
     stream.on('error', err => reject(err));
-
     stream.on('finish', () => resolve());
-
     stream.end(data);
   });
 }
@@ -44,6 +43,7 @@ async function main() {
     return;
   }
 
+  console.log('launch browser');
   let browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
   let page = await browser.newPage();
 
@@ -52,16 +52,22 @@ async function main() {
       'Authorization': `${argv.authorization}`,
     });
   }
+
+  console.log('navigate to url:', argv.url);
   await page.goto(argv.url, {waitUntil: 'networkidle'});
 
+  console.log('print pdf');
   let data = await page.pdf({
     printBackground: true,
     format: 'A4',
   });
 
+  console.log('close browser');
   await browser.close();
 
   await uploadFile(argv, data);
+
+  console.log('pdgen finished succesfully!');
 }
 
 
