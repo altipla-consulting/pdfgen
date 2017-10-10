@@ -59,9 +59,9 @@ async function main() {
     format: 'A4',
   });
 
-  await browser.close();
-
   await uploadFile(argv, data);
+
+  await browser.close();
 }
 
 
