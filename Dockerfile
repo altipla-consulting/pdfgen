@@ -9,7 +9,8 @@ RUN apt-get update && \
     apt-get update && \
     apt-get install -y google-chrome-unstable
 
-COPY . /app
+COPY package.json /app/package.json
+COPY index.js /app/index.js
 WORKDIR /app
 
 RUN npm install
