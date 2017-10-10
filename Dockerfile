@@ -10,9 +10,10 @@ RUN apt-get update && \
     apt-get install -y google-chrome-unstable
 
 COPY package.json /app/package.json
-COPY index.js /app/index.js
 WORKDIR /app
 
 RUN npm install
+
+COPY index.js /app/index.js
 
 CMD ["node", "index.js"]
