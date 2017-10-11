@@ -1,19 +1,12 @@
 'use strict'
 
 const parseArgs = require('minimist');
-const Storage = require('@google-cloud/storage');
+const Storage = require('@google-cloud/storage')();
 const puppeteer = require('puppeteer');
 
 
 async function uploadFile(argv, data) {
-  let gsoptions = {};
-  if (!argv.local)  {
-    gsoptions.keyFilename = '/etc/pdfgen/service-account.json';
-  }
-
-  let storage = Storage(gsoptions);
-
-  let bucket = storage.bucket(argv.bucket);
+  let bucket = Storage.bucket(argv.bucket);
   let file = bucket.file(argv.filename);
   let stream = file.createWriteStream({
     metadata: {
