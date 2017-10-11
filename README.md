@@ -13,7 +13,7 @@ Necesitamos crear en Google Cloud Console un bucket de prueba (con un nombre pro
 ```shell
 git clone git@github.com:altipla-consulting/pdfgen.git
 docker build -t pdfgen .
-docker run --rm -t -v $(HOME)/.config/gcloud:/home/local/.config/gcloud pdfgen node index.js --local --bucket example-bucket --filename example/example.pdf --url https://www.google.com/
+docker run --rm -t -v $(HOME)/.config/gcloud:/home/local/.config/gcloud pdfgen node index.js --bucket example-bucket --filename example/example.pdf --url https://www.google.com/
 ```
 
 El volumen que compartimos sirve en Linux para probar con los ADC (credenciales por defecto de aplicación) cuando interactuemos con la API de Google Cloud Storage.
@@ -23,7 +23,6 @@ El volumen que compartimos sirve en Linux para probar con los ADC (credenciales 
 
 | Parámetro | Descripción |
 | --------- | ----------- |
-| `--local` | Lee los credenciales por defecto en lugar de la cuenta de servicio. |
 | `--bucket example-bucket` | Indica el bucket de destino donde se subirá el fichero.
 | `--filename example/example.pdf` | Indica el nombre del fichero dentro del bucket de destino. |
 | `--url https://www.google.com` | URL que intentará descargarse. |
