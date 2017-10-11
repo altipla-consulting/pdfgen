@@ -6,12 +6,7 @@ const puppeteer = require('puppeteer');
 
 
 async function uploadFile(argv, data) {
-  let gsoptions = {};
-  if (!argv.local)  {
-    gsoptions.keyFilename = '/etc/pdfgen/service-account.json';
-  }
-
-  let storage = Storage(gsoptions);
+  let storage = Storage();
 
   let bucket = storage.bucket(argv.bucket);
   let file = bucket.file(argv.filename);
