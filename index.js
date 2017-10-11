@@ -1,14 +1,12 @@
 'use strict'
 
 const parseArgs = require('minimist');
-const Storage = require('@google-cloud/storage');
+const Storage = require('@google-cloud/storage')();
 const puppeteer = require('puppeteer');
 
 
 async function uploadFile(argv, data) {
-  let storage = Storage();
-
-  let bucket = storage.bucket(argv.bucket);
+  let bucket = Storage.bucket(argv.bucket);
   let file = bucket.file(argv.filename);
   let stream = file.createWriteStream({
     metadata: {
