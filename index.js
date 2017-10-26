@@ -40,6 +40,14 @@ async function main() {
   let browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
   let page = await browser.newPage();
 
+  page.on('request', request => {
+    console.log('request:', request.url);
+  });
+
+  page.on('requestfailed', request => {
+    console.log('request failed:', request.url);
+  });
+
   if (argv.authorization) {
     await page.setExtraHTTPHeaders({
       'Authorization': `${argv.authorization}`,
@@ -47,7 +55,7 @@ async function main() {
   }
 
   console.log('navigate to url:', argv.url);
-  await page.goto(argv.url, {waitUntil: 'networkidle'});
+  await page.goto(argv.url, {waitUntil: 'load'});
 
   console.log('print pdf');
   let data = await page.pdf({
