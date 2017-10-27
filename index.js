@@ -45,7 +45,7 @@ async function main() {
   });
 
   page.on('requestfailed', request => {
-    console.log('request failed:', request.url, 'Error:', request.failure().errorText);
+    console.log('request failed:', request.url);
   });
 
   if (argv.authorization) {
