@@ -17,4 +17,6 @@ RUN npm install
 
 COPY index.js /app/index.js
 
+ENV DEBUG=*
+
 CMD ["node", "index.js"]
