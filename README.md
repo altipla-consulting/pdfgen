@@ -26,7 +26,8 @@ El volumen que compartimos sirve en Linux para probar con los ADC (credenciales 
 | `--bucket example-bucket` | Indica el bucket de destino donde se subirá el fichero.
 | `--filename example/example.pdf` | Indica el nombre del fichero dentro del bucket de destino. |
 | `--url https://www.google.com` | URL que intentará descargarse. |
-| `--auth "Bearer 123456789"` | Cabecera `Authentication` que enviará al pedir la página para comprobar que somos realmente nosotros. |
+| `--user username` | Usuario que se enviará al pedir la página para comprobar que somos realmente nosotros. |
+| `--password passw` | Contraseña que se enviará al pedir la página para comprobar que somos realmente nosotros. |
 
 
 ### Uso con Kubernetes
