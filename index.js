@@ -25,14 +25,14 @@ async function uploadFile(argv, data) {
 
 async function main() {
   let options = {
-    string: ['url', 'filename', 'bucket', 'authorization'],
+    string: ['url', 'filename', 'bucket', 'user', 'password'],
     boolean: 'local',
     unknown: () => false,
   };
   let argv = parseArgs(process.argv.slice(2), options);
 
   if (!argv.url || !argv.bucket || !argv.filename) {
-    console.log('Usage: node index.js --url http://www.example.com --bucket test-bucket --filename test/test.pdf [--authorization "Bearer token"]');
+    console.log('Usage: node index.js --url http://www.example.com --bucket test-bucket --filename test/test.pdf [--user username --password passw]');
     return;
   }
 
@@ -48,10 +48,11 @@ async function main() {
     console.log('request failed:', request.url);
   });
 
-  if (argv.authorization) {
-    await page.setExtraHTTPHeaders({
-      'Authorization': `${argv.authorization}`,
-    });
+  if (argv.user && argv.password) {
+    page.authenticate({
+      username: argv.user,
+      password: argv.password,
+    })
   }
 
   console.log('navigate to url:', argv.url);
