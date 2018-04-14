@@ -28,7 +28,19 @@ There is a single endpoint `/api` exposed in the port `:3000`. Send a `POST` req
 
 | Option | Description |
 | ------ | ----------- |
-| url | URL to download and print as PDF. |
+| `url` | URL to download and print as PDF. |
+
+Example raw HTTP call:
+
+```
+POST /api HTTP/1.1
+Accept: application/json, */*
+Content-Length: 33
+Content-Type: application/json
+Host: localhost:3000
+
+{"url": "https://www.google.com"}
+```
 
 
 ### Environment variables
