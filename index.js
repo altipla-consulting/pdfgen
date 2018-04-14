@@ -9,6 +9,7 @@ app.use(bodyParser.json());
 
 
 async function print(res, input) {
+  let headersSent = false;
   try {
     console.log('[*] Launch puppeteer');
     let browser = await puppeteer.launch({
@@ -21,7 +22,12 @@ async function print(res, input) {
     let failed = false;
     page.on('requestfailed', request => {
       failed = true;
-      throw new Error(`request failed: ${request.url()}`);
+      console.error(`-- request failed: ${request.url()}`);
+
+      if (!headersSent) {
+        headersSent = true;
+        res.json({error: `request failed: ${request.url()}`});
+      }
     });
 
     console.log('[*] Navigate to page');
@@ -30,20 +36,27 @@ async function print(res, input) {
       waitUntil: ['networkidle0', 'load'],
     });
 
-    console.log('[*] Generate PDF');
-    let pdf =  await page.pdf({
-      printBackground: true,
-      format: 'A4',
-    });
+    if (!failed) {
+      console.log('[*] Generate PDF');
+      let pdf =  await page.pdf({
+        printBackground: true,
+        format: 'A4',
+      });
+    }
 
     console.log('[*] Close browser')
     await browser.close();
 
-    res.type('pdf');
-    res.send(pdf);
+    if (!failed) {
+      res.type('pdf');
+      res.send(pdf);
+    }
   } catch (err) {
     console.error('PDF generation failed:', err);
-    res.json({error: `${err}`});
+    if (!headersSent) {
+      headersSent = true;
+      res.json({error: `${err}`});
+    }
   }
 }
 
