@@ -1,43 +1,36 @@
 
 # pdfgen
 
-> Generacion de PDFs con puppeteer.
+> Generate PDFs with puppeteer.
 
-Esta aplicación cuidadosamente preparada para ejecutarse en un contenedor recibe una URL normalmente de caracter interno (para generar bonos, informes, etc.); la imprime a PDF usando Chrome Headless y sube el fichero a un lugar de Google Cloud Storage que le indiquemos.
+This server will return a PDF printed with Headless Chrome when requested through a web API.
 
 
-### Ejemplo de uso
+### Usage
 
-Necesitamos crear en Google Cloud Console un bucket de prueba (con un nombre propio, `example-bucket` no servirá). También necesitamos tener instalado git y docker.
+We have a build a Docker container to make it easy to run pdfgen.
+
+Run the container:
 
 ```shell
-git clone git@github.com:altipla-consulting/pdfgen.git
-docker build -t pdfgen .
-docker run --rm -t -v $(HOME)/.config/gcloud:/home/local/.config/gcloud pdfgen node index.js --bucket example-bucket --filename example/example.pdf --url https://www.google.com/
+docker run -it --rm -p 3000:3000 -t pdfgen
 ```
 
-El volumen que compartimos sirve en Linux para probar con los ADC (credenciales por defecto de aplicación) cuando interactuemos con la API de Google Cloud Storage.
+In other shell call the API using [HTTPie](https://httpie.org/):
 
-
-### Parámetros
-
-| Parámetro | Descripción |
-| --------- | ----------- |
-| `--bucket example-bucket` | Indica el bucket de destino donde se subirá el fichero.
-| `--filename example/example.pdf` | Indica el nombre del fichero dentro del bucket de destino. |
-| `--url https://www.google.com` | URL que intentará descargarse. |
-| `--user username` | Usuario que se enviará al pedir la página para comprobar que somos realmente nosotros. |
-| `--password passw` | Contraseña que se enviará al pedir la página para comprobar que somos realmente nosotros. |
-
-
-### Uso con Kubernetes
-
-Dado que es una aplicación que se abre, se ejecuta realizando las acciones pertienentes y después se cierra recomendamos ejecutarla dentro de un Job asíncrono. Recomendamos usar la API interna de Kubernetes (o externa con una cuenta de servicio) para crear un Job, probar cada pocos segundos si ya ha terminado, y cuando lo esté descargarse el fichero tranquilamente desde Storage en la ruta prefijada.
-
-Previamente hay que compilar el Dockerfile que incluimos en este repo. Recomendamos usar Google Container Registry para subir la imagen.
-
-Ejemplo de YAML de un Job de Kubernetes:
-
-```yaml
-# TODO(ernesto): Traerse un ejemplo de los que ejecutamos.
 ```
+http POST :3000/api url=https://www.google.com
+```
+
+### API
+
+There is a single endpoint `/api` exposed in the port `:3000`. Send a `POST` request to that endpoint with a JSON body with the following options:
+
+| Option | Description |
+| ------ | ----------- |
+| url | URL to download and print as PDF. |
+
+
+### Environment variables
+
+There is an env var called `DEBUG=*` that you can activate to emit every single message sent and received to Headless Chrome to debug hard to find issues.
