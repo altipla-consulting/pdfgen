@@ -9,21 +9,21 @@ app.use(bodyParser.json());
 
 
 async function print(res, input) {
-  console.log('[*] Launch puppeteer');
-  let browser = await puppeteer.launch();
-  let page = await browser.newPage();
-
-  page.on('request', request => console.log(`-- request: ${request.url()}`));
-
-  let failed = false;
-  page.on('requestfailed', request => {
-    failed = true;
-    console.error(`-- request failed: ${request.url()}`);
-    res.json({error: `request failed: ${request.url()}`});
-  });
-
-  let pdf;
   try {
+    console.log('[*] Launch puppeteer');
+    let browser = await puppeteer.launch({
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    });
+
+    let page = await browser.newPage();
+    page.on('request', request => console.log(`-- request: ${request.url()}`));
+
+    let failed = false;
+    page.on('requestfailed', request => {
+      failed = true;
+      throw new Error(`request failed: ${request.url()}`);
+    });
+
     console.log('[*] Navigate to page');
     await page.goto(input.url, {
       timeout: 25000,
@@ -31,22 +31,19 @@ async function print(res, input) {
     });
 
     console.log('[*] Generate PDF');
-    pdf =  await page.pdf({
+    let pdf =  await page.pdf({
       printBackground: true,
       format: 'A4',
     });
-  } catch (err) {
-    failed = true;
-    console.error('PDF generation failed:', err);
-    res.json({error: `${err}`});
-  }
 
-  console.log('[*] Close browser')
-  await browser.close();
+    console.log('[*] Close browser')
+    await browser.close();
 
-  if (!failed) {
     res.type('pdf');
     res.send(pdf);
+  } catch (err) {
+    console.error('PDF generation failed:', err);
+    res.json({error: `${err}`});
   }
 }
 
@@ -68,4 +65,10 @@ app.post('/api', (req, res) => {
   });
 });
 
-app.listen(3000, () => console.log('App listening on port 3000!'));
+
+let server = app.listen(3000, () => console.log('App listening on port 3000!'));
+
+process.on('SIGINT', function() {
+  server.close();
+  process.exit(0);
+});
