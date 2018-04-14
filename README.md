@@ -13,7 +13,7 @@ We have a build a Docker container to make it easy to run pdfgen.
 Run the container:
 
 ```shell
-docker run -it --rm -p 3000:3000 -t pdfgen
+docker run -it --rm -p 3000:3000 -t altipla/pdfgen
 ```
 
 In other shell call the API using [HTTPie](https://httpie.org/):
