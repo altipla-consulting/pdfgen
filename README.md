@@ -42,6 +42,10 @@ Host: localhost:3000
 {"url": "https://www.google.com"}
 ```
 
+The reply will be `200 OK` when everything is OK and the body will be directly the binary data of the generated PDF file.
+
+If an error occurs the server will return a status `500 Internal Server Error` and the body will be a JSON with an `error` field explaining in detail the failure to help debug the issue.
+
 
 ### Environment variables
 
