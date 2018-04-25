@@ -2,6 +2,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const puppeteer = require('puppeteer');
+const timestamp = require('console-timestamp');
+
+
+const TIMESTAMP_FORMAT = '[YYYY-MM-DD hh:mm:ss:iii]';
 
 
 const app = express();
@@ -11,18 +15,18 @@ app.use(bodyParser.json());
 async function print(res, input) {
   let headersSent = false;
   try {
-    console.log('[*] Launch puppeteer');
+    console.log(`${timestamp(TIMESTAMP_FORMAT)} [*] Launch puppeteer`);
     let browser = await puppeteer.launch({
       args: ['--no-sandbox', '--disable-setuid-sandbox'],
     });
 
     let page = await browser.newPage();
-    page.on('request', request => console.log(`-- request: ${request.url()}`));
+    page.on('request', request => console.log(`${timestamp(TIMESTAMP_FORMAT)} -- request: ${request.url()}`));
 
     let failed = false;
     page.on('requestfailed', request => {
       failed = true;
-      console.error(`-- request failed: ${request.url()}`);
+      console.error(`${timestamp(TIMESTAMP_FORMAT)} -- request failed: ${request.url()}`);
 
       if (!headersSent) {
         headersSent = true;
@@ -30,21 +34,21 @@ async function print(res, input) {
       }
     });
 
-    console.log('[*] Navigate to page');
+    console.log(`${timestamp(TIMESTAMP_FORMAT)} [*] Navigate to page`);
     await page.goto(input.url, {
       timeout: 25000,
       waitUntil: ['networkidle0', 'load'],
     });
 
     if (!failed) {
-      console.log('[*] Generate PDF');
+      console.log(`${timestamp(TIMESTAMP_FORMAT)} [*] Generate PDF`);
       let pdf =  await page.pdf({
         printBackground: true,
         format: 'A4',
       });
     }
 
-    console.log('[*] Close browser')
+    console.log(`${timestamp(TIMESTAMP_FORMAT)} [*] Close browser`);
     await browser.close();
 
     if (!failed) {
@@ -52,7 +56,7 @@ async function print(res, input) {
       res.send(pdf);
     }
   } catch (err) {
-    console.error('PDF generation failed:', err);
+    console.error(`${timestamp(TIMESTAMP_FORMAT)} PDF generation failed:`, err);
     if (!headersSent) {
       headersSent = true;
       res.json({error: `${err}`});
@@ -65,7 +69,7 @@ app.get('/', (req, res) => res.send('Use the API to generate a PDF'));
 
 app.post('/api', (req, res) => {
   let input = req.body;
-  console.log('=== Request received\n===', input);
+  console.log(`${timestamp(TIMESTAMP_FORMAT)} === Request received\n===`, input);
 
   if (!input.url) {
     res.json({error: 'url required'});
@@ -73,13 +77,13 @@ app.post('/api', (req, res) => {
   }
 
   print(res, input).catch(err => {
-    console.error(err);
+    console.error(`${timestamp(TIMESTAMP_FORMAT)} ${err}`);
     res.json({error: err});
   });
 });
 
 
-let server = app.listen(3000, () => console.log('App listening on port 3000!'));
+let server = app.listen(3000, () => console.log(`${timestamp(TIMESTAMP_FORMAT)} App listening on port 3000!`));
 
 process.on('SIGINT', function() {
   server.close();
