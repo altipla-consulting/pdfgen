@@ -40,9 +40,10 @@ async function print(res, input) {
       waitUntil: ['networkidle0', 'load'],
     });
 
+    let pdf;
     if (!failed) {
       console.log(`${timestamp(TIMESTAMP_FORMAT)} [*] Generate PDF`);
-      let pdf =  await page.pdf({
+      pdf =  await page.pdf({
         printBackground: true,
         format: 'A4',
       });
