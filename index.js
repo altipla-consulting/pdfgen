@@ -68,6 +68,8 @@ async function print(res, input) {
 
 app.get('/', (req, res) => res.send('Use the API to generate a PDF'));
 
+app.get('/health', (req, res) => res.send('ok'));
+
 app.post('/api', (req, res) => {
   let input = req.body;
   console.log(`${timestamp(TIMESTAMP_FORMAT)} === Request received\n===`, input);
