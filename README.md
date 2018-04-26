@@ -29,6 +29,9 @@ There is a single endpoint `/api` exposed in the port `:3000`. Send a `POST` req
 | Option | Description |
 | ------ | ----------- |
 | `url` | URL to download and print as PDF. |
+| `content` | HTML content to insert in the page. |
+
+One of the two parameters is required. If `url` is specified `content` will be ignored.
 
 Example raw HTTP call:
 
