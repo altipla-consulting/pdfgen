@@ -22,6 +22,7 @@ In other shell call the API using [HTTPie](https://httpie.org/):
 http POST :3000/api url=https://www.google.com
 ```
 
+
 ### API
 
 There is a single endpoint `/api` exposed in the port `:3000`. Send a `POST` request to that endpoint with a JSON body with the following options:
@@ -53,3 +54,8 @@ If an error occurs the server will return a status `500 Internal Server Error` a
 ### Environment variables
 
 There is an env var called `DEBUG=*` that you can activate to emit every single message sent and received to Headless Chrome to debug hard to find issues.
+
+
+### Health checks
+
+You can hit the `/health` endpoint to obtain an `ok` and use it as health check for the Kubernetes pod.
