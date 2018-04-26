@@ -15,6 +15,6 @@ WORKDIR /app
 
 RUN npm install
 
-COPY index.js /app/index.js
+COPY src /app/src
 
-CMD ["node", "index.js"]
+CMD ["node", "src/index.js"]
