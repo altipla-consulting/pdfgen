@@ -69,6 +69,13 @@ async function print(res, input) {
   return await page.pdf({
     printBackground: true,
     format: 'A4',
+    displayHeaderFooter: input.header !== '' || input.footer !== '',
+    headerTemplate: input.header,
+    footerTemplate: input.footer,
+    margin: { 
+      top: input.headerHeight, 
+      bottom: input.footerHeight,
+    }
   });
 }
 
