@@ -74,7 +74,7 @@ async function print(res, input) {
     footerTemplate: input.footer,
     margin: { 
       top: input.headerHeight, 
-      bottom: input.footerHeight,
+      bottom: input.footerHeight
     }
   });
 }
