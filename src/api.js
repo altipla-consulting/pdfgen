@@ -47,9 +47,7 @@ async function print(res, input) {
   page.on('requestfailed', request => {
     logging.error(`-- request failed: ${request.url()}`);
 
-    if (!headersSent) {
-      throw new Error(`request failed: ${request.url()}`);
-    }
+    throw new Error(`request failed: ${request.url()}`);
   });
 
   logging.log('[*] Navigate to page');
@@ -66,7 +64,7 @@ async function print(res, input) {
   }
 
   logging.log('[*] Generate PDF');
-  return await page.pdf({
+  let pdf = await page.pdf({
     printBackground: true,
     format: 'A4',
     displayHeaderFooter: input.header || input.footer,
@@ -77,5 +75,9 @@ async function print(res, input) {
       bottom: input.footerHeight,
     },
   });
+
+  await page.close();
+
+  return pdf;
 }
 
