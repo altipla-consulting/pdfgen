@@ -47,9 +47,7 @@ async function print(res, input) {
   page.on('requestfailed', request => {
     logging.error(`-- request failed: ${request.url()}`);
 
-    if (!headersSent) {
-      throw new Error(`request failed: ${request.url()}`);
-    }
+    throw new Error(`request failed: ${request.url()}`);
   });
 
   logging.log('[*] Navigate to page');
