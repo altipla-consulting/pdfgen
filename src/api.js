@@ -64,6 +64,7 @@ async function print(res, input) {
   }
 
   logging.log('[*] Generate PDF');
+
   let pdf = await page.pdf({
     printBackground: true,
     format: 'A4',
@@ -75,7 +76,7 @@ async function print(res, input) {
       bottom: input.footerHeight,
     },
   });
-
+  
   await page.close();
 
   return pdf;
