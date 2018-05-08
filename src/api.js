@@ -77,5 +77,7 @@ async function print(res, input) {
       bottom: input.footerHeight,
     },
   });
+
+  page.close()
 }
 
