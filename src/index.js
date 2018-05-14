@@ -8,6 +8,7 @@ const browser = require('./browser');
 
 const app = express();
 
+app.use(bodyParser({limit: '50mb'}));
 app.use(bodyParser.json());
 
 app.get('/', (req, res) => res.send('Use the API to generate a PDF'));
