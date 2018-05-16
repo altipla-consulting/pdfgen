@@ -65,6 +65,16 @@ async function print(res, input) {
 
   logging.log('[*] Generate PDF');
 
+  var marginTop = '0.5cm';
+  if (input.headerHeight) {
+    marginTop = input.headerHeight;
+  }
+
+  var marginBottom = '0.5cm';
+  if (input.footerHeight) {
+    marginBottom = input.footerHeight;
+  }
+
   let pdf = await page.pdf({
     printBackground: true,
     format: 'A4',
@@ -72,8 +82,10 @@ async function print(res, input) {
     headerTemplate: input.header,
     footerTemplate: input.footer,
     margin: { 
-      top: input.headerHeight, 
-      bottom: input.footerHeight,
+      top: marginTop, 
+      bottom: marginBottom,
+      right: '0.5cm',
+      left: '0.5cm',
     },
   });
   
