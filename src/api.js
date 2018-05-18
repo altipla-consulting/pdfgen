@@ -65,22 +65,10 @@ async function print(res, input) {
 
   logging.log('[*] Generate PDF');
 
-  let marginTop = 0;
-  if (input.marginTop) {
-    marginTop = input.marginTop;
-  }
-  let marginBottom = 0;
-  if (input.marginBottom) {
-    marginBottom = input.marginBottom;
-  }
-  let marginRight = 0;
-  if (input.marginRight) {
-    marginRight = input.marginRight;
-  }
-  let marginLeft = 0;
-  if (input.marginLeft) {
-    marginLeft = input.marginLeft;
-  }
+  let marginTop = input.marginTop ? input.marginTop : '';
+  let marginBottom = input.marginBottom ? input.marginBottom : '';
+  let marginRight = input.marginRight ? input.marginRight : '';
+  let marginLeft = input.marginLeft ? input.marginLeft : '';
 
   let pdf = await page.pdf({
     printBackground: true,
