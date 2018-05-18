@@ -65,11 +65,6 @@ async function print(res, input) {
 
   logging.log('[*] Generate PDF');
 
-  let marginTop = input.marginTop ? input.marginTop : '';
-  let marginBottom = input.marginBottom ? input.marginBottom : '';
-  let marginRight = input.marginRight ? input.marginRight : '';
-  let marginLeft = input.marginLeft ? input.marginLeft : '';
-
   let pdf = await page.pdf({
     printBackground: true,
     format: 'A4',
@@ -77,10 +72,10 @@ async function print(res, input) {
     headerTemplate: input.header,
     footerTemplate: input.footer,
     margin: { 
-      top: marginTop, 
-      bottom: marginBottom,
-      right: marginRight,
-      left: marginLeft,
+      top: input.marginTop ? input.marginTop : '', 
+      bottom: input.marginBottom ? input.marginBottom : '',
+      right: input.marginRight ? input.marginRight : '',
+      left: input.marginLeft ? input.marginLeft : '',
     },
   });
   
