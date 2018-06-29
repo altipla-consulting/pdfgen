@@ -1,0 +1,38 @@
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: pdfgen
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: pdfgen
+    spec:
+      containers:
+      - name: pdfgen
+        image: altipla/pdfgen:latest
+        ports:
+        - containerPort: 3000
+          name: api
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          timeoutSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          timeoutSeconds: 5
+        resources:
+          requests:
+            cpu: 2m
+            memory: 150Mi
+          limits:
+            memory: 600Mi

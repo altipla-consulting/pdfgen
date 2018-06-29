@@ -1,12 +1,12 @@
 
-# pdfgen
+<p align="center">
+  <img src="https://storage.googleapis.com/altipla-external-files/logos/pdfgen.png">
+</p>
+<br>
 
-> Generate PDFs with puppeteer.
+Server to generate PDFs with puppeteer through a web API.
 
-This server will return a PDF printed with Headless Chrome when requested through a web API.
-
-
-### Usage
+## Usage
 
 We have a build a Docker container to make it easy to run pdfgen.
 
@@ -23,7 +23,7 @@ http POST :3000/api url=https://www.google.com
 ```
 
 
-### API
+## API
 
 There is a single endpoint `/api` exposed in the port `:3000`. Send a `POST` request to that endpoint with a JSON body with the following options:
 
@@ -31,6 +31,12 @@ There is a single endpoint `/api` exposed in the port `:3000`. Send a `POST` req
 | ------ | ----------- |
 | `url` | URL to download and print as PDF. |
 | `content` | HTML content to insert in the page. |
+| `header` | HTML content of the header. |
+| `footer` | HTML content of the footer. |
+| `marginTop` | Margin top of every page of the document. |
+| `marginRight` | Margin right of every page of the document. |
+| `marginBottom` | Margin bottom of every page of the document. |
+| `marginLeft` | Margin left of every page of the document. |
 
 One of the two parameters is required. If `url` is specified `content` will be ignored.
 
@@ -51,11 +57,28 @@ The reply will be `200 OK` when everything is OK and the body will be directly t
 If an error occurs the server will return a status `500 Internal Server Error` and the body will be a JSON with an `error` field explaining in detail the failure to help debug the issue.
 
 
-### Environment variables
+## Footers & headers
+
+The `footer` and `header` parameters are rendered in a different context (aka Chromium tab) than the main body. This means the page styles won't apply here if you do not copy them inside the content. Also external files or scripts are not allowed.
+
+We recommend to insert inline in the content the header and footers of each page instead to have more flexibility.
+
+
+## Environment variables
 
 There is an env var called `DEBUG=*` that you can activate to emit every single message sent and received to Headless Chrome to debug hard to find issues.
 
 
-### Health checks
+## Kubernetes
+
+We have a [deployment](k8s/deployment.yaml) and [service](k8s/service.yaml) prepared as examples of how to deploy to a cluster. Download and apply them to have pdfgen running in your cluster:
+
+```
+kubectl apply -f k8s/deployment.yaml
+kubectl apply -f k8s/service.yaml
+```
+
+
+## Health checks
 
 You can hit the `/health` endpoint to obtain an `ok` and use it as health check for the Kubernetes pod.
