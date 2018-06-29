@@ -6,6 +6,7 @@
 
 Server to generate PDFs with [puppeteer](https://github.com/GoogleChrome/puppeteer) through a web API.
 
+
 ## Usage
 
 We have a build a Docker container to make it easy to run pdfgen.
@@ -21,6 +22,11 @@ In other shell call the API using [HTTPie](https://httpie.org/):
 ```
 http POST :3000/api url=https://www.google.com
 ```
+
+
+### Latest version
+
+You can see the versions in [Docker Hub](https://hub.docker.com/r/altipla/pdfgen/tags/). You can also use the `latest` tag to always have the newest version.
 
 
 ## API
