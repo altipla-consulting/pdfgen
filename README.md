@@ -4,7 +4,7 @@
 </p>
 <br>
 
-Server to generate PDFs with puppeteer through a web API.
+Server to generate PDFs with [puppeteer](https://github.com/GoogleChrome/puppeteer) through a web API.
 
 ## Usage
 
