@@ -1,6 +1,6 @@
 
 <p align="center">
-  <img src="https://storage.googleapis.com/altipla-external-files/logos/pdfgen.png">
+  <img src="https://storage.googleapis.com/altipla-external-files/logos/pdfgen-v2.png">
 </p>
 <br>
 
