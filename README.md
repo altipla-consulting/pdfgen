@@ -83,7 +83,7 @@ This variable controls the port this server binds to. It has this specific name 
 This variable controls the authentication needed to access the API. See the Security section ahead.
 
 
-# Security
+## Security
 
 Declare the environment variable `AUTH` with a custom random token as long and strange as possible and then use it in every request you send to the application as a simple Bearer token.
 
