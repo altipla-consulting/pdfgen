@@ -1,5 +1,5 @@
 
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: pdfgen
@@ -9,6 +9,9 @@ spec:
   strategy:
     rollingUpdate:
       maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: pdfgen
   template:
     metadata:
       labels:
@@ -33,6 +36,6 @@ spec:
         resources:
           requests:
             cpu: 2m
-            memory: 150Mi
+            memory: 600Mi
           limits:
             memory: 600Mi
