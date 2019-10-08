@@ -72,7 +72,11 @@ We recommend to insert inline in the content the header and footers of each page
 
 ## Environment variables
 
+#### DEBUG
 There is an env var called `DEBUG=*` that you can activate to emit every single message sent and received to Headless Chrome to debug hard to find issues.
+
+#### PORT
+This variable controls the port this server binds to. It has this specific name to work directly under Google Cloud Run.
 
 
 ## Kubernetes
