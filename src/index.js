@@ -17,7 +17,8 @@ app.post('/api', require('./api'));
 
 let server;
 browser.launch().then(() => {
-  server = app.listen(3000, () => logging.log('App listening on port 3000!'));
+  const port = process.env.PORT || 3000;
+  server = app.listen(port, () => logging.log(`App listening on port ${port}!`));
 });
 
 
