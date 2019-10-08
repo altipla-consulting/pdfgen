@@ -39,6 +39,7 @@ There is a single endpoint `/api` exposed in the port `:3000`. Send a `POST` req
 | `content` | HTML content to insert in the page. |
 | `header` | HTML content of the header. |
 | `footer` | HTML content of the footer. |
+| `landscape` | Use landscape paper instead or portrait (default `false`). |
 | `marginTop` | Margin top of every page of the document. |
 | `marginRight` | Margin right of every page of the document. |
 | `marginBottom` | Margin bottom of every page of the document. |

@@ -71,6 +71,7 @@ async function print(res, input) {
     displayHeaderFooter: input.header || input.footer,
     headerTemplate: input.header,
     footerTemplate: input.footer,
+    landscape: input.landscape,
     margin: { 
       top: input.marginTop ? input.marginTop : '', 
       bottom: input.marginBottom ? input.marginBottom : '',
