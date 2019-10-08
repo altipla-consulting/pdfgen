@@ -109,9 +109,20 @@ kubectl apply -f k8s/service.yaml
 The service won't be public, therefore it has no authentication (see Security above). You have to use `http://pdfgen:3000/api` as the URL to invoke it internally inside the cluster.
 
 
+## Google Cloud Run
+
+```shell
+export GOOGLE_PROJECT=my-project-1234
+docker pull altipla/pdfgen:latest
+docker tag altipla/pdfgen:latest eu.gcr.io/$GOOGLE_PROJECT/pdfgen:latest
+docker push eu.gcr.io/$GOOGLE_PROJECT/pdfgen
+gcloud beta run deploy pdfgen --image eu.gcr.io/$GOOGLE_PROJECT/pdfgen:latest --concurrency 5 --memory 1Gi --timeout 30s
+```
+
+
 ## Health checks
 
-You can hit the `/health` endpoint to obtain an `ok` and use it as health check for the Kubernetes pod.
+You can hit the `/health` endpoint to obtain an `ok` and use it as health check for the Kubernetes pod. In the example configuration files inside the [k8s](k8s) folder it is already configured.
 
 
 ### License
