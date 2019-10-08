@@ -19,8 +19,8 @@ docker run -it --rm -p 3000:3000 -t altipla/pdfgen
 
 In other shell call the API using [HTTPie](https://httpie.org/):
 
-```
-http POST localhost:3000/api url=https://www.google.com -o example.pdf
+```shell
+http -v POST localhost:3000/api url=https://www.google.com -o example.pdf
 ```
 
 
@@ -79,6 +79,23 @@ There is an env var called `DEBUG=*` that you can activate to emit every single 
 #### PORT
 This variable controls the port this server binds to. It has this specific name to work directly under Google Cloud Run.
 
+#### AUTH
+This variable controls the authentication needed to access the API. See the Security section ahead.
+
+
+# Security
+
+Declare the environment variable `AUTH` with a custom random token as long and strange as possible and then use it in every request you send to the application as a simple Bearer token.
+
+Example with HTTPie:
+
+
+```shell
+http -v POST localhost:3000/api url=https://www.google.com -o example.pdf 'Authorization: Bearer MY_TOKEN_1234'
+```
+
+If undeclared this will expose the server to anyone with access to that port allowing them to export as PDF anyweb and navigate through your machines. It is therefore highly recommended that you configure this security unless you deploy it internally in your network behind a firewall.
+
 
 ## Kubernetes
 
@@ -88,6 +105,8 @@ We have a [deployment](k8s/deployment.yaml) and [service](k8s/service.yaml) prep
 kubectl apply -f k8s/deployment.yaml
 kubectl apply -f k8s/service.yaml
 ```
+
+The service won't be public, therefore it has no authentication (see Security above). You have to use `http://pdfgen:3000/api` as the URL to invoke it internally inside the cluster.
 
 
 ## Health checks

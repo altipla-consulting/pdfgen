@@ -6,6 +6,12 @@ const logging = require('./logging');
 module.exports = async function(req, res) {
   let input = req.body;
 
+  if (process.env.AUTH && req.headers.authorization !== `Bearer ${process.env.AUTH}`) {
+    res.status(403);
+    res.json({error: 'unauthenticated'});
+    return;
+  }
+
   if (!input.url && !input.content) {
     res.status(400);
     res.json({error: 'url or content required'});
