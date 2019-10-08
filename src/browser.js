@@ -1,5 +1,5 @@
 
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-core');
 
 const logging = require('./logging');
 
@@ -9,6 +9,7 @@ module.exports = {
     logging.log('[*] Launch browser');
 
     this.instance = await puppeteer.launch({
+      executablePath: 'google-chrome',
       args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'],
     });
   },
