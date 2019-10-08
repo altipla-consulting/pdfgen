@@ -18,4 +18,4 @@ jobs:
     - name: npm
       run: |
         npm ci
-        npm lint
+        npm run lint
