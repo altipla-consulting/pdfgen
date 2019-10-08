@@ -1,0 +1,18 @@
+{
+  "env": {
+    "node": true,
+  },
+ "parserOptions": {
+    "ecmaVersion": 2017
+  },
+  "rules": {
+    "comma-dangle": ["error", "always-multiline"],
+    "dot-notation": "error",
+    "eol-last": "error",
+    "indent": ["error", 2],
+    "key-spacing": "error",
+    "no-undef": "error",
+    "no-unused-vars": ["error", {"varsIgnorePattern": "ignore", "argsIgnorePattern": "ignore"}],
+    "quotes": ["error", "single", {"allowTemplateLiterals": true}],
+  },
+}
