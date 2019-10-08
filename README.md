@@ -83,7 +83,7 @@ This variable controls the port this server binds to. It has this specific name 
 This variable controls the authentication needed to access the API. See the Security section ahead.
 
 
-# Security
+## Security
 
 Declare the environment variable `AUTH` with a custom random token as long and strange as possible and then use it in every request you send to the application as a simple Bearer token.
 
@@ -113,10 +113,12 @@ The service won't be public, therefore it has no authentication (see Security ab
 
 ```shell
 export GOOGLE_PROJECT=my-project-1234
+export AUTH=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
 docker pull altipla/pdfgen:latest
 docker tag altipla/pdfgen:latest eu.gcr.io/$GOOGLE_PROJECT/pdfgen:latest
 docker push eu.gcr.io/$GOOGLE_PROJECT/pdfgen
-gcloud beta run deploy pdfgen --image eu.gcr.io/$GOOGLE_PROJECT/pdfgen:latest --concurrency 5 --memory 1Gi --timeout 30s
+gcloud beta run deploy pdfgen --image eu.gcr.io/$GOOGLE_PROJECT/pdfgen:latest --concurrency 5 --memory 1Gi --timeout 30s --set-env-vars AUTH=$AUTH
+echo "Your authentication token is: Bearer $AUTH"
 ```
 
 
