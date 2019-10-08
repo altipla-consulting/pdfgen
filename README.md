@@ -20,7 +20,7 @@ docker run -it --rm -p 3000:3000 -t altipla/pdfgen
 In other shell call the API using [HTTPie](https://httpie.org/):
 
 ```
-http POST :3000/api url=https://www.google.com
+http POST localhost:3000/api url=https://www.google.com -o example.pdf
 ```
 
 
