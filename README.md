@@ -93,3 +93,8 @@ kubectl apply -f k8s/service.yaml
 ## Health checks
 
 You can hit the `/health` endpoint to obtain an `ok` and use it as health check for the Kubernetes pod.
+
+
+### License
+
+[MIT License](LICENSE)
