@@ -76,7 +76,7 @@ async function print(res, input) {
   let pdf = await page.pdf({
     printBackground: true,
     format: 'A4',
-    displayHeaderFooter: input.header || input.footer,
+    displayHeaderFooter: !!(input.header || input.footer),
     headerTemplate: input.header,
     footerTemplate: input.footer,
     landscape: input.landscape,
