@@ -63,7 +63,9 @@ async function print(res, input) {
       waitUntil: ['networkidle0', 'load'],
     });
   } else {
-    await page.goto(`data:text/html,${input.content}`, {
+    let escaped = input.content;
+    escaped = escaped.replace(/#/g, '%23');
+    await page.goto(`data:text/html,${escaped}`, {
       timeout: 25000,
       waitUntil: ['networkidle0', 'load'],
     });
