@@ -117,7 +117,7 @@ export AUTH=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
 docker pull altipla/pdfgen:latest
 docker tag altipla/pdfgen:latest eu.gcr.io/$GOOGLE_PROJECT/pdfgen:latest
 docker push eu.gcr.io/$GOOGLE_PROJECT/pdfgen
-gcloud beta run deploy pdfgen --image eu.gcr.io/$GOOGLE_PROJECT/pdfgen:latest --concurrency 5 --memory 1Gi --timeout 30s --set-env-vars AUTH=$AUTH
+gcloud beta run deploy pdfgen --image eu.gcr.io/$GOOGLE_PROJECT/pdfgen:latest --concurrency 5 --memory 1Gi --timeout 30s --project $GOOGLE_PROJECT --set-env-vars AUTH=$AUTH
 echo "Your authentication token is: Bearer $AUTH"
 ```
 
