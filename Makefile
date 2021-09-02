@@ -10,14 +10,8 @@ lint:
 	npm run lint
 
 deploy:
-ifndef tag
-	$(error tag is not set)
-endif
-
 	git push
 	docker build -t altipla/pdfgen:latest .
-	docker build -t altipla/pdfgen:$(tag) .
+	docker build -t altipla/pdfgen:$(shell git describe --abbrev=0 --tags) .
 	docker push altipla/pdfgen:latest
-	docker push altipla/pdfgen:$(tag)
-	git tag $(tag)
-	git push origin --tags
+	docker push altipla/pdfgen:$(shell git describe --abbrev=0 --tags)
