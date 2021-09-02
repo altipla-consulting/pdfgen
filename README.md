@@ -9,7 +9,7 @@ Server to generate PDFs with [puppeteer](https://github.com/GoogleChrome/puppete
 
 ## Usage
 
-We have a build a Docker container to make it easy to run pdfgen.
+We have a Docker container to make it easy to run pdfgen.
 
 Run the container:
 
