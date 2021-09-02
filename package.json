@@ -14,9 +14,9 @@
     "test": ""
   },
   "dependencies": {
-    "body-parser": "^1.18.2",
+    "body-parser": "^1.19.0",
     "console-timestamp": "^0.3.0",
-    "express": "^4.16.3",
+    "express": "^4.17.1",
     "lodash": "^4.17.21",
     "puppeteer-core": "^10.2.0"
   },
