@@ -10,7 +10,7 @@
   "author": "Altipla Consulting",
   "homepage": "https://github.com/altipla-consulting/pdfgen",
   "scripts": {
-    "lint": "eslint src/*.js",
+    "lint": "eslint src",
     "test": ""
   },
   "dependencies": {
@@ -18,9 +18,9 @@
     "console-timestamp": "^0.3.0",
     "express": "^4.16.3",
     "lodash": "^4.17.21",
-    "puppeteer-core": "^1.20.0"
+    "puppeteer-core": "^10.2.0"
   },
   "devDependencies": {
-    "eslint": "^6.5.1"
+    "eslint": "^7.32.0"
   }
 }
